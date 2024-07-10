@@ -3,7 +3,8 @@ import { useForm } from '@inertiajs/inertia-react';
 import Layout from '../Components/Layout';
 import { useDarkMode } from '../Components/DarkModeProvider';
 
-const VerifyKyc = ({ email, is_kyc_verified }) => {
+const VerifyKyc = ({ email, is_kyc_verified, kyc_id }) => {
+
     const { darkMode } = useDarkMode();
     const { data, setData, post, errors } = useForm({
         email: email,
@@ -33,8 +34,19 @@ const VerifyKyc = ({ email, is_kyc_verified }) => {
             <div className="container mx-auto mb-4">
                 <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'} pb-8`}>
                     <h3 className="text-xl font-bold my-4">Verify Kyc</h3>
-                    {is_kyc_verified ? (
-                        <div className="text-green-500">Your KYC has been Verified.</div>
+                    {kyc_id ? (
+                        <>
+                            <div className="text-green-500">Your KYC has been submitted.</div>
+                            {is_kyc_verified ? (
+                                <>
+                                    <p>and Verified Successfully</p>
+                                </>
+                            ) : (
+                                <>
+                                    <p>Please Wait till Admin verifies your KYC.</p>
+                                </>
+                            )}
+                        </>
                     ) : (
                         <form onSubmit={handleSubmit}>
                             <div className="mb-4">
@@ -99,4 +111,3 @@ const VerifyKyc = ({ email, is_kyc_verified }) => {
 };
 
 export default VerifyKyc;
-

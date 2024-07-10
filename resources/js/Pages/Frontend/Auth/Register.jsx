@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from '@inertiajs/inertia-react';
 import logo from '../../../../images/logo.png'
 
@@ -13,9 +13,13 @@ const Register = ({countryCodes, currencies}) => {
         currency_id: '',
     });
 
+    const [agree, setAgree] = useState(false);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        post('/register');
+        if (agree) {
+            post('/register');
+        }
     };
 
     return (
@@ -104,10 +108,19 @@ const Register = ({countryCodes, currencies}) => {
                         </select>
                         {errors.currency_id && <div className="text-red-500 mt-2">{errors.currency_id}</div>}
                     </div>
+                    <div className="mb-4 flex items-center">
+                        <input
+                            type="checkbox"
+                            checked={agree}
+                            onChange={(e) => setAgree(e.target.checked)}
+                            className="mr-2"
+                        />
+                        <span>I agree to the terms and conditions</span>
+                    </div>
                     <div className="flex items-center justify-between">
                         <button
                             type="submit"
-                            disabled={processing}
+                            disabled={processing || !agree}
                             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                         >
                             Register

@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use App\Models\CountryCode;
 use App\Models\Currency;
 use Hash;
+use Illuminate\Support\Facades\Auth;
 
 
 class AuthController extends Controller
@@ -65,11 +66,22 @@ class AuthController extends Controller
             'country_code_id' => $request->country_code_id,
             'contact_no' => $request->contact_no,
             'currency_id' => $request->currency_id,
+            'credit_score' => 100,
         ]);
 
-        // You can add additional logic here, such as logging in the user or redirecting them to a specific page
 
-        return redirect()->route('frontend.dashboard');
+        $credentials = [
+            'email' => $customer->email,
+            'password' => $customer->txt_password
+        ];
+
+        if(Auth::attempt($credentials))
+        {
+            return redirect()->route('frontend.dashboard');
+        }
+
+        return redirect()->route('app.login');
+
     }
 
     public function logout(Request $request)

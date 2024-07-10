@@ -2,6 +2,7 @@ import React from 'react';
 import { FaSun, FaHome, FaChartLine, FaExchangeAlt, FaWallet, FaUser } from "react-icons/fa";
 import { IoMoon } from "react-icons/io5";
 import { BiSupport } from "react-icons/bi";
+import { FaTelegram } from "react-icons/fa";
 
 import { useDarkMode } from './DarkModeProvider';
 import { usePage } from '@inertiajs/inertia-react';
@@ -26,11 +27,17 @@ const Layout = ({ children }) => {
             {/* Right side */}
             <div className="flex items-center space-x-4 text-right">
                 <a
-                    href='https://wa.me/+447438148113'
+                    href='tg://resolve?domain=yourtelegramusername'
                     target='_blank' 
                 className="focus:outline-none mr-2" style={{ textAlign:'right' }}>
-                <BiLogoWhatsapp size={40} color="#25D366" />
+                <FaTelegram size={40} color="#0088cc" />
                 </a>
+                <a
+                href='https://wa.me/+447438148113'
+                target='_blank' 
+            className="focus:outline-none mr-2" style={{ textAlign:'right' }}>
+            <BiLogoWhatsapp size={40} color="#25D366" />
+            </a>
                 <button onClick={toggleDarkMode} className="focus:outline-none">
                     {darkMode ? <FaSun size={24} /> : <IoMoon size={36} />}
                 </button>

@@ -3,14 +3,15 @@ import Layout from '../Components/Layout';
 import { useDarkMode } from '../Components/DarkModeProvider';
 import Chart from '../Components/Chart';
 
-const Trade = () => {
+const Trade = ({source, type}) => {
     const { darkMode } = useDarkMode();
-    const [selectedPair, setSelectedPair] = useState('BTCUSDT');
+    const [selectedPair, setSelectedPair] = useState(source ? source : 'BTCUSDT');
     const defaultStock = 'META';
-
-    const [selectedType, setSelectedType] = useState('crypto');
+    console.log('souce', source);
+    const [selectedType, setSelectedType] = useState(type ? type : 'crypto');
 
     const handlePairChange = (e) => {
+        source = 'e.target.value'
         setSelectedPair(e.target.value);
     };
 

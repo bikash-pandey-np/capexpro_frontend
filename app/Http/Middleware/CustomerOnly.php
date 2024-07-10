@@ -17,7 +17,7 @@ class CustomerOnly
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect()->route('app.login');
+            return redirect()->route('app.login')->with('error', 'Please Login !');
         }
 
         return $next($request);

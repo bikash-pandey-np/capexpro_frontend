@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Customer;
+use Illuminate\Support\Str;
 use App\Models\Currency;
 
 class Withdraw extends Model
@@ -13,8 +14,9 @@ class Withdraw extends Model
 
     protected $fillable = [
         'request_amount',
-        'currency_id',
+        'type',
         'transaction_code',
+        'currency_id',
         'requested_by',
         'requested_at',
         'wallet_addr',
@@ -24,11 +26,20 @@ class Withdraw extends Model
         'approved_at',
         'rejected_at',
         'reject_reason',
+        'user_remark'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($withdraw) {
+            $withdraw->transaction_code = self::generateUniqueCode();
+        });
+    }
     public function currency()
     {
-        return $this->belongsTo(\App\Models\Currency::class);
+        return $this->belongsTo(Currency::class, 'currency_id');
     }
 
 
@@ -37,19 +48,10 @@ class Withdraw extends Model
         return $this->belongsTo(Customer::class, 'requested_by');
     }
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($deposit) {
-            $deposit->transaction_code = self::generateUniqueCode();
-        });
-    }
-
     private static function generateUniqueCode()
     {
         do {
-            $code = 'DEP' . strtoupper(substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 4));
+            $code = 'WD-' . Str::upper(Str::random(4));
         } while (self::where('transaction_code', $code)->exists());
 
         return $code;

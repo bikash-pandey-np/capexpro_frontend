@@ -55,7 +55,10 @@ const Market = ({balance, user_currency}) => {
                                         <td className="px-6 py-4 whitespace-nowrap">{shareData[key].display}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{shareData[key].price}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <button className="text-yellow-600 hover:text-white">Trade</button>
+                                            <a className="text-yellow-600 hover:text-white"
+                                            href={route('frontend.trade', {source: shareData[key].id, type: 'stock'})}
+                                                
+                                                >Trade</a>           
                                         </td>
                                     </tr>
                                 ))}

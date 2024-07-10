@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('withdraws', function (Blueprint $table) {
             $table->id();
             $table->float('request_amount', 15, 2);
-            $table->foreignId('currency_id')->constrained('currencies');
             $table->string('transaction_code')->unique();
+            $table->foreignId('currency_id')->constrained('currencies');
+            $table->string('type');
             $table->foreignId('requested_by')->constrained('customers');
             $table->dateTime('requested_at');
             $table->string('wallet_addr')->nullable();
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->dateTime('approved_at')->nullable();
             $table->dateTime('rejected_at')->nullable();
             $table->string('reject_reason')->nullable();
+            $table->longText('user_remark')->nullable();
             $table->timestamps();
         });
     }

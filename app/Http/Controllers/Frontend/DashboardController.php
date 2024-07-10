@@ -12,6 +12,7 @@ use App\Models\Withdraw;
 use App\Models\Position;
 
 use App\Models\Kyc;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyEmailMail;
@@ -93,9 +94,91 @@ class DashboardController extends Controller
             'user_currency' => Customer::with('currency:id,rate_per_usdt,symbol')->find(auth()->user()->id)->currency
         ]);
     }
-    public function getTradePage()
+    public function getTradePage(Request $request)
     {
-        return Inertia::render('Frontend/Trade');
+
+        $selectedSymbol = '';
+        if($request->has('type'))
+        {
+            if($request->type === 'crypto')
+            {
+                if($request->source === 'aaveusd')
+                {
+                    $selectedSymbol = 'AAVEUSDT';
+                }
+
+                if($request->source === 'linkusd')
+                {
+                    $selectedSymbol = 'LINKUSDT';
+                }
+                if($request->source === 'bitcoin')
+                {
+                    $selectedSymbol = 'BTCUSDT';
+                }
+                if($request->source === 'ethereum')
+                {
+                    $selectedSymbol = 'ETHUSDT';
+                }
+                if($request->source === 'adausd')
+                {
+                    $selectedSymbol = 'ADAUSDT';
+                }
+                if($request->source === 'ripple')
+                {
+                    $selectedSymbol = 'XRPUSDT';
+                }
+                if($request->source === 'dash')
+                {
+                    $selectedSymbol = 'DASHUSDT';
+                }
+                if($request->source === 'litecoin')
+                {
+                    $selectedSymbol = 'LTCUSDT';
+                }
+            }
+
+            if($request->type === 'stock')
+            {
+                if($request->source === 'facebook')
+                {
+                    $selectedSymbol = 'META';
+                }
+
+                if($request->source === 'adobe')
+                {
+                    $selectedSymbol = 'ADBE';
+                }
+                if($request->source === 'amzn')
+                {
+                    $selectedSymbol = 'AMZN';
+                }
+                if($request->source === 'apple')
+                {
+                    $selectedSymbol = 'AAPL';
+                }
+                if($request->source === 'google')
+                {
+                    $selectedSymbol = 'GOOG';
+                }
+                if($request->source === 'netflix')
+                {
+                    $selectedSymbol = 'NFLX';
+                }
+                if($request->source === 'nvidia')
+                {
+                    $selectedSymbol = 'NVDA';
+                }
+                if($request->source === 'tesla')
+                {
+                    $selectedSymbol = 'TSLA';
+                }
+            }
+        }
+
+        return Inertia::render('Frontend/Trade', [
+            'source' => $selectedSymbol,
+            'type' => $request->type ? $request->type : null,
+        ]);
     }
 
 
@@ -148,8 +231,8 @@ class DashboardController extends Controller
     {
         $data = $request->validate([
             'withdrawType' => 'required|string',
-            'walletAddress' => 'required_if:withdrawType,crypto|string',
-            'amountUsdt' => 'required_if:withdrawType,crypto|numeric',
+            'walletAddress' => 'required_if:withdrawType,crypto',
+            'amountUsdt' => 'required_if:withdrawType,crypto',
             'bankName' => 'required_if:withdrawType,bank',
             'accountNo' => 'required_if:withdrawType,bank',
             'accountName' => 'required_if:withdrawType,bank',
@@ -158,13 +241,50 @@ class DashboardController extends Controller
         ]);
 
         // Handle the withdrawal logic here
-        // For example, you can create a new withdrawal record in the database
-
-        // Assuming you have a Withdrawal model
         try {
-            Withdraw::create($data);
+
+            $withdrawalData = [
+                'requested_by' => auth()->user()->id,
+                'requested_at' => now(),
+                'status' => 'Processing', 
+            ];
+
+            if($request->withdrawType === 'crypto')
+            {
+                $withdrawalData['type'] = $request->withdrawType;
+
+                $withdrawalData['request_amount'] = $request->amountUsdt;
+                $withdrawalData['wallet_addr'] = $request->walletAddress;
+                $withdrawalData['currency_id'] = Currency::where('symbol', 'USDT')->value('id');
+
+
+            }
+
+            if($request->withdrawType === 'bank')
+            {
+                $withdrawalData['type'] = $request->withdrawType;
+
+                $withdrawalData['bank_info'] = json_encode([
+                    'bankName' => $request->bankName,
+                    'accountNo' => $request->accountNo,
+                    'accountName' => $request->accountName,
+                ]);
+                $withdrawalData['currency_id'] = Auth::user()->currency_id;
+
+                $withdrawalData['request_amount'] = $request->amount;
+
+                if ($request->has('remark')) {
+                    $withdrawalData['user_remark'] = $request->remark;
+                }
+
+
+            }
+            // Map the request data to the Withdraw model fields
+            Withdraw::create($withdrawalData);
+
             return redirect()->back()->with('success', 'Withdrawal request submitted successfully');
         } catch (\Exception $e) {
+            Log::debug('Withdrawal request failed: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed');
         }
     }
@@ -175,7 +295,7 @@ class DashboardController extends Controller
 
 
         // $account_usdt = Account::where('currency_id', 'USDT')->first();
-        $account_user = Account::where('currency_id', $user->currency_id)->first();
+        $account_user = $user->currency->symbol === 'USDT' ? null : Account::where('currency_id', $user->currency_id)->first();
 
         $account_usdt = Account::whereHas('currency', function ($query) {
             $query->where('symbol', 'USDT');
@@ -270,11 +390,13 @@ class DashboardController extends Controller
 
     public function getVerifyKycPage(Request $request)
     {
+
         $user = $request->user();
+        
         return Inertia::render('Frontend/VerifyKyc', [
             'email' => $user->email,
             'is_kyc_verified' => $user->is_kyc_verified,
-
+            'kyc_id' => $user->kyc_id
         ]);
     }
 

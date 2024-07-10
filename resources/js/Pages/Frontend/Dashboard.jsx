@@ -5,6 +5,8 @@ import { useDarkMode } from '../Components/DarkModeProvider';
 import { Circles } from 'react-loader-spinner'
 
 const Dashboard = ({balance, user_currency}) => {
+
+    console.log('c', user_currency);
     const { darkMode } = useDarkMode();
     const [shareData, setShareData] = useState(null);
 
@@ -38,7 +40,7 @@ const Dashboard = ({balance, user_currency}) => {
                         Add Funds
                     </a>
                 </div>
-                <div className={`p-3 rounded-lg mt-4 ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
+                <div className={`p-3 rounded-lg mt-4 mb-8 ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
                     <h2 className="extra_small">Featured CryptoCurrencies</h2>
                     {shareData ? (
                         <div className="overflow-x-auto">
@@ -56,7 +58,10 @@ const Dashboard = ({balance, user_currency}) => {
                                             <td className="px-6 py-4 whitespace-nowrap extra_small">{shareData[key].display}</td>
                                             <td className="px-6 py-4 whitespace-nowrap extra_small">{shareData[key].price}</td>
                                             <td className="px-6 py-4 whitespace-nowrap extra_small">
-                                                <button className="text-yellow-600 hover:text-white">Trade</button>
+                                                <a className="text-yellow-600 hover:text-white"
+                                                href={route('frontend.trade', {source: shareData[key].id, type: 'crypto'})}
+                                                    
+                                                    >Trade</a>
                                             </td>
                                         </tr>
                                     ))}
