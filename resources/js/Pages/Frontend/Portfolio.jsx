@@ -3,6 +3,7 @@ import Layout from '../Components/Layout';
 import { useDarkMode } from '../Components/DarkModeProvider';
 
 const Portfolio = ({ user }) => {
+
     const { darkMode } = useDarkMode();
 
     return (
@@ -21,13 +22,13 @@ const Portfolio = ({ user }) => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-12">
                         <div className={`p-4 rounded-lg shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
                             <h2 className="text-xl font-bold">Available Balance</h2>
-                            <p className="mt-2">{user.balance_usdt.toFixed(4)} USDT</p>
+                            <p className="mt-2">{user.balance_usdt.toFixed(3)} USDT</p>
                         </div>
 
                         <div className={`p-4 rounded-lg shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
                         <h2 className="text-xl font-bold"> 
                         ≈ {user.currency.symbol}</h2>
-                        <p className="mt-2">{(user.balance_usdt * user.currency.rate_per_usdt).toFixed(2)} {user.currency.symbol}</p>
+                        <p className="mt-2">{(user.balance_usdt / user.currency.rate_per_usdt).toFixed(2)} {user.currency.symbol}</p>
                     </div>
                         <div className={`p-4 rounded-lg shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
                             <h2 className="text-xl font-bold">Total Deposit</h2>

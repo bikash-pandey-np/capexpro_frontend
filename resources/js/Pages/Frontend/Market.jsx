@@ -29,9 +29,9 @@ const Market = ({balance, user_currency}) => {
                 <div className={`p-3 rounded-lg flex justify-between items-center ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
                 <div>
                 <h2 className="extra_small">Balance (USDT)</h2>
-                <p className="large font-bold">$ {balance} </p>
-                <p className="medium font-bold text-gray-400">≈ {parseFloat(balance) * user_currency.rate_per_usdt} {user_currency.symbol}</p>
-            </div>
+                <p className="large font-bold">$ {parseFloat(balance).toFixed(3)} </p>
+                <p className="medium font-bold text-gray-400">≈ {(parseFloat(balance) / user_currency.rate_per_usdt).toFixed(3)} {user_currency.symbol}</p>
+                </div>
                     <a 
                     href={route('frontend.trade')} 
                     className={`medium px-4 py-1 rounded shadow focus:outline-none ${darkMode ? 'bg-yellow-500 text-gray-800 hover:bg-yellow-600' : 'bg-blue-500 text-white hover:bg-blue-600'}`}>

@@ -17,7 +17,7 @@ class CurrencySeeder extends Seeder
     {
         $currencies = [
             ['name' => 'Indian Rupee', 'symbol' => 'INR', 'rate_per_usdt' => 0.012],
-            // ['name' => 'Philippine peso', 'symbol' => 'PHP', 'rate_per_usdt' => 0.017],
+            ['name' => 'Philippine peso', 'symbol' => 'PHP', 'rate_per_usdt' => 0.017],
             ['name' => 'US Dollar Tether', 'symbol' => 'USDT', 'rate_per_usdt' => 1.00],
         ];
 

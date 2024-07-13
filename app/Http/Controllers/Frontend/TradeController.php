@@ -53,14 +53,14 @@ class TradeController extends Controller
 
         }
 
-        //check if user email is verified
+        // //check if user email is verified
 
-        if(! $user->is_email_verified)
-        {
-            return back()->with('error', 'Verify email before placing trade');
-        }
+        // if(! $user->is_email_verified)
+        // {
+        //     return back()->with('error', 'Verify email before placing trade');
+        // }
 
-        //is kyc verified
+        // // is kyc verified
         // if(! $user->is_kyc_verified)
         // {
         //     return back()->with('error', 'Verify KYC before placing trade');
@@ -131,14 +131,14 @@ class TradeController extends Controller
 
         }
 
-        //check if user email is verified
+        // //check if user email is verified
 
-        if(! $user->is_email_verified)
-        {
-            return back()->with('error', 'Verify email before placing trade');
-        }
+        // if(! $user->is_email_verified)
+        // {
+        //     return back()->with('error', 'Verify email before placing trade');
+        // }
 
-        //is kyc verified
+        // //is kyc verified
         // if(! $user->is_kyc_verified)
         // {
         //     return back()->with('error', 'Verify KYC before placing trade');
@@ -183,26 +183,6 @@ class TradeController extends Controller
             }])
             ->findOrFail(Auth::id());
     
-        $active_trades = $customer->positions;
-    
-        foreach ($active_trades as $trade) {
-            // Get current price for the symbol
-            $current_price = $this->getCurrentPrice($trade);
-    
-            // Check if trade has expired
-            if (now()->greaterThan($trade->will_close_at)) {
-                // Settle the trade
-                $this->settleTrade($trade, $current_price);
-            } else {
-                // Update ongoing trade status
-                $this->updateOngoingTrade($trade, $current_price);
-            }
-        }
-        $customer = Customer::with(['positions' => function($query) {
-            $query->where('is_active', true)->orderByDesc('created_at');
-        }])
-        ->findOrFail(Auth::id());
-
         $active_trades = $customer->positions;
 
         return response()->json([

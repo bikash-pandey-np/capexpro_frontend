@@ -240,6 +240,20 @@ class DashboardController extends Controller
             'remark' => 'nullable|string',
         ]);
 
+        $currentCustomer = Customer::findOrFail(Auth::user()->id);
+        //check if user is email verified or not 
+        if(!$currentCustomer->is_email_verified)
+        {
+            return back()->with('error', 'Verify Email First to withdraw funds');
+        }
+
+        //check if users is kyc verified or not 
+        if(!$currentCustomer->is_kyc_verified)
+        {
+            return back()->with('error', 'Verify KYC First to withdraw funds');
+        }
+
+
         // Handle the withdrawal logic here
         try {
 
@@ -251,17 +265,27 @@ class DashboardController extends Controller
 
             if($request->withdrawType === 'crypto')
             {
+
+                if($currentCustomer->balance_usdt < $request->amountUsdt)
+                {
+                    return back()->with('error', 'Insufficient Fund !');
+                }
                 $withdrawalData['type'] = $request->withdrawType;
 
                 $withdrawalData['request_amount'] = $request->amountUsdt;
                 $withdrawalData['wallet_addr'] = $request->walletAddress;
                 $withdrawalData['currency_id'] = Currency::where('symbol', 'USDT')->value('id');
 
-
             }
 
             if($request->withdrawType === 'bank')
             {
+
+                if($currentCustomer->balance_usdt < $request->amount)
+                {
+                    return back()->with('error', 'Insufficient Fund !');
+                }
+
                 $withdrawalData['type'] = $request->withdrawType;
 
                 $withdrawalData['bank_info'] = json_encode([
