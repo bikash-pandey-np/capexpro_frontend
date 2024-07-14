@@ -5,6 +5,14 @@ use Inertia\Inertia;
 use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\TradeController;
+use App\Http\Controllers\Frontend\WebsiteController;
+
+
+Route::get('/', [WebsiteController::class, 'getHomepage'])->name('homepage');
+Route::get('/about', [WebsiteController::class, 'getAboutPage'])->name('about_page');
+Route::get('/contact', [WebsiteController::class, 'getContactPage'])->name('contact_page');
+
+
 
 
 Route::get('/share-data', [DashboardController::class, 'getShareData'])
@@ -17,7 +25,7 @@ Route::get('/market', [DashboardController::class, 'getMarketPage'])
     ->name('frontend.market');
 
 
-Route::get('/', [DashboardController::class, 'getDashboardPage'])
+Route::get('/dashboard', [DashboardController::class, 'getDashboardPage'])
     ->middleware('only_cust')
     ->name('frontend.dashboard');
 

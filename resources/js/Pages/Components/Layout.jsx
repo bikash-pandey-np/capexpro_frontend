@@ -27,7 +27,7 @@ const Layout = ({ children }) => {
             {/* Right side */}
             <div className="flex items-center space-x-4 text-right">
                 <a
-                    href='tg://resolve?domain=yourtelegramusername'
+                    href='tg://resolve?domain=thecapexprooffical2024'
                     target='_blank' 
                 className="focus:outline-none mr-2" style={{ textAlign:'right' }}>
                 <FaTelegram size={40} color="#0088cc" />
