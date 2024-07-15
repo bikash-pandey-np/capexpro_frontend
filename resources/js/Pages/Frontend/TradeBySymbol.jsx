@@ -17,7 +17,9 @@ const TradeBySymbol = ({ symbol, balance, user_currency, form_type }) => {
     useEffect(() => {
         const fetchTickerData = async () => {
             try {
-                const response = await axios.get(`https://ticker.thecapex.pro/?symbol=${symbol}`);
+                const response = await axios.get(route('binance_ticker', { symbol }));
+
+                // const response = await axios.get(`https://ticker.thecapex.pro/?symbol=${symbol}`);
                 setTickerData(response)
             } catch (error) {
                 console.error('Error fetching ticker data:', error);

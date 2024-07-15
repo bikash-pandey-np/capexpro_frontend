@@ -74,7 +74,9 @@ class TradeController extends Controller
                 'amount' => $request->amount,
                 'type' => $request->tradeType,
                 'symbol' => $request->symbol,
-                'entry_price' => json_decode(file_get_contents('https://ticker.thecapex.pro/?symbol=' . $request->symbol))->price,
+                'entry_price' => json_decode(file_get_contents(route('binance_ticker', ['symbol' => $request->symbol])))->price,
+
+                // 'entry_price' => json_decode(file_get_contents('https://ticker.thecapex.pro/?symbol=' . $request->symbol))->price,
                 'traded_by' => Auth::user()->id,
                 'traded_datetime' => now(),
                 'trade_duration' => $request->duration,
@@ -242,7 +244,9 @@ class TradeController extends Controller
 
         if($trade->is_crypto)
         {
-            $price = json_decode(file_get_contents('https://ticker.thecapex.pro/?symbol=' . $trade->symbol))->price;
+            $price = json_decode(file_get_contents(route('binance_ticker', ['symbol' => $trade->symbol])))->price;
+
+            // $price = json_decode(file_get_contents('https://ticker.thecapex.pro/?symbol=' . $trade->symbol))->price;
             return $price;
         }
         else{

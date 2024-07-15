@@ -6,7 +6,11 @@ use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\TradeController;
 use App\Http\Controllers\Frontend\WebsiteController;
+use App\Http\Controllers\BinanceController;
 
+
+
+Route::get('/ticker', [BinanceController::class, 'getPrice'])->name('binance_ticker');
 
 Route::get('/', [WebsiteController::class, 'getHomepage'])->name('homepage');
 Route::get('/about', [WebsiteController::class, 'getAboutPage'])->name('about_page');
