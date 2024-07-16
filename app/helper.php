@@ -5,17 +5,30 @@ use Illuminate\Support\Facades\DB;
 
 function getCurrentPrice($trade)
 {
-    if ($trade->is_crypto) {
-        $price = json_decode(file_get_contents(route('binance_ticker', ['symbol' => $trade->symbol])))->price;
-        return $price;
-    } else {
-        $client = new Client();
-        $response = $client->get('https://api-v2.capex.com/quotesv2?key=1&q=' . $trade->symbol);
-        $share_datas = json_decode($response->getBody()->getContents(), true);
-        $price = $share_datas[$trade->symbol]['price'];
-        return $price;
+    try {
+        if ($trade->is_crypto) {
+            $url = route('binance_ticker', ['symbol' => $trade->symbol]);
+            $response = file_get_contents($url);
+            if ($response === false) {
+                throw new \Exception("Failed to fetch data from {$url}");
+            }
+            $price = json_decode($response)->price;
+            return $price;
+        } else {
+            $client = new Client();
+            $response = $client->get('https://api-v2.capex.com/quotesv2?key=1&q=' . $trade->symbol);
+            $share_datas = json_decode($response->getBody()->getContents(), true);
+            $price = $share_datas[$trade->symbol]['price'];
+            return $price;
+        }
+    } catch (\Exception $e) {
+        // Log the error or handle it as needed
+        \Log::error("Error fetching current price: " . $e->getMessage());
+        return null; // Or handle the error gracefully
     }
 }
+
+
 
 function settleTrade($trade, $current_price)
 {
