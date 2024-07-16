@@ -9,7 +9,7 @@ class BinanceController extends Controller
     public function getPrice(Request $request)
     {
         $symbol = $request->input('symbol');
-        $endpoint = "https://api.binance.com/api/v3/ticker/24hr?symbol={$symbol}";
+        $endpoint = "https://api.binance.com/api/v3/ticker/price?symbol={$symbol}";
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $endpoint);
