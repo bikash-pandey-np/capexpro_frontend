@@ -21,7 +21,6 @@ const Market = ({balance, user_currency}) => {
         return () => clearInterval(intervalId);
     }, []);
 
-    console.log(shareData);
 
     return (
         <Layout>

@@ -7,7 +7,6 @@ const Trade = ({source, type}) => {
     const { darkMode } = useDarkMode();
     const [selectedPair, setSelectedPair] = useState(source ? source : 'BTCUSDT');
     const defaultStock = 'META';
-    console.log('souce', source);
     const [selectedType, setSelectedType] = useState(type ? type : 'crypto');
 
     const handlePairChange = (e) => {
@@ -27,7 +26,6 @@ const Trade = ({source, type}) => {
                 setSelectedPair('BTCUSDT')
             }
 
-        console.log(selectedPair);
     };
 
     return (

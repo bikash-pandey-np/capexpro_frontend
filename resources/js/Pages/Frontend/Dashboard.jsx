@@ -4,9 +4,8 @@ import Layout from '../Components/Layout'
 import { useDarkMode } from '../Components/DarkModeProvider';
 import { Circles } from 'react-loader-spinner'
 
-const Dashboard = ({balance, user_currency}) => {
+const Dashboard = ({balance, user_currency, user_remark, username}) => {
 
-    console.log('c', user_currency);
     const { darkMode } = useDarkMode();
     const [shareData, setShareData] = useState(null);
 
@@ -23,11 +22,10 @@ const Dashboard = ({balance, user_currency}) => {
         return () => clearInterval(intervalId);
     }, []);
 
-    console.log(shareData);
-
     return (
         <Layout>
             <div className="container mx-auto">
+                {user_remark && <p className="text-center text-sm font-semibold mb-2">Dear {username}, <br />{user_remark}</p>}
                 <div className={`p-3 rounded-lg flex justify-between items-center ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
                     <div>
                         <h2 className="extra_small">Balance (USDT)</h2>

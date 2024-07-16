@@ -9,7 +9,8 @@ use Auth;
 
 class WebsiteController extends Controller
 {
-    function getHomepage() {
+    function getHomepage(Request $request) {
+
         return Inertia::render('Website/Homepage');
     }
 

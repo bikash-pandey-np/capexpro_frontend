@@ -38,6 +38,7 @@ class ComposerStaticInit72d17b0ac69d9bf4a38fa43d0847e213
         'a1cfe24d14977df6878b9bf804af2d1c' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '320163ac6b93aebe3dc25b60a0533d56' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/helpers.php',
+        '1aff2f8abd60e952b4bdd52d4f05a132' => __DIR__ . '/../..' . '/app/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -534,12 +535,19 @@ class ComposerStaticInit72d17b0ac69d9bf4a38fa43d0847e213
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\UpdateActiveTrade' => __DIR__ . '/../..' . '/app/Console/Commands/UpdateActiveTrade.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\BinanceController' => __DIR__ . '/../..' . '/app/Http/Controllers/BinanceController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\Frontend\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/AuthController.php',
+        'App\\Http\\Controllers\\Frontend\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/DashboardController.php',
+        'App\\Http\\Controllers\\Frontend\\TradeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/TradeController.php',
+        'App\\Http\\Controllers\\Frontend\\WebsiteController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/WebsiteController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
+        'App\\Http\\Middleware\\AdminOnly' => __DIR__ . '/../..' . '/app/Http/Middleware/AdminOnly.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
+        'App\\Http\\Middleware\\CustomerOnly' => __DIR__ . '/../..' . '/app/Http/Middleware/CustomerOnly.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\HandleInertiaRequests' => __DIR__ . '/../..' . '/app/Http/Middleware/HandleInertiaRequests.php',
         'App\\Http\\Middleware\\PreventRequestsDuringMaintenance' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventRequestsDuringMaintenance.php',
@@ -549,12 +557,13 @@ class ComposerStaticInit72d17b0ac69d9bf4a38fa43d0847e213
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\ValidateSignature' => __DIR__ . '/../..' . '/app/Http/Middleware/ValidateSignature.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Mail\\VerifyEmailMail' => __DIR__ . '/../..' . '/app/Mail/VerifyEmailMail.php',
         'App\\Models\\Account' => __DIR__ . '/../..' . '/app/Models/Account.php',
+        'App\\Models\\ActivityLog' => __DIR__ . '/../..' . '/app/Models/ActivityLog.php',
         'App\\Models\\Asset' => __DIR__ . '/../..' . '/app/Models/Asset.php',
         'App\\Models\\CountryCode' => __DIR__ . '/../..' . '/app/Models/CountryCode.php',
         'App\\Models\\Currency' => __DIR__ . '/../..' . '/app/Models/Currency.php',
         'App\\Models\\Customer' => __DIR__ . '/../..' . '/app/Models/Customer.php',
-        'App\\Models\\CustomerCurrency' => __DIR__ . '/../..' . '/app/Models/CustomerCurrency.php',
         'App\\Models\\Deposit' => __DIR__ . '/../..' . '/app/Models/Deposit.php',
         'App\\Models\\Kyc' => __DIR__ . '/../..' . '/app/Models/Kyc.php',
         'App\\Models\\Position' => __DIR__ . '/../..' . '/app/Models/Position.php',

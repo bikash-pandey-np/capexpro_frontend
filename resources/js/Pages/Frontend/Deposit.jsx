@@ -5,7 +5,6 @@ import { useDarkMode } from '../Components/DarkModeProvider';
 import deposit_img from '../../../images/deposit.png'
 
 const Deposit = ({infos}) => {
-    console.log(infos);
     const { darkMode } = useDarkMode();
     const cardClass = darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black';
     const headerClass = darkMode ? 'bg-gray-900 br' : 'bg-gray-300 br';

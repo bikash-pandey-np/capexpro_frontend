@@ -10,6 +10,7 @@ use App\Models\Currency;
 use App\Models\Account;
 use App\Models\Withdraw;
 use App\Models\Position;
+use App\Models\ActivityLog;
 
 use App\Models\Kyc;
 use Illuminate\Support\Facades\Log;
@@ -214,6 +215,8 @@ class DashboardController extends Controller
         
         
         return Inertia::render('Frontend/Dashboard', [
+            'username' => auth()->user()->full_name,
+            'user_remark' => auth()->user()->user_remark,
             'balance' => auth()->user()->balance_usdt,
             'user_currency' => Customer::with('currency:id,rate_per_usdt,symbol')->find(auth()->user()->id)->currency
 
@@ -305,6 +308,10 @@ class DashboardController extends Controller
             }
             // Map the request data to the Withdraw model fields
             Withdraw::create($withdrawalData);
+
+            $output = fetchPublicIP();
+            $output['activity'] = 'Withdraw Request';
+            ActivityLog::create($output);
 
             return redirect()->back()->with('success', 'Withdrawal request submitted successfully');
         } catch (\Exception $e) {
@@ -429,9 +436,9 @@ class DashboardController extends Controller
         $data = $request->validate([
             'email' => 'required|email|exists:customers,email',
             'doc_type' => 'required|string|in:Passport,National id,Driving license',
-            'doc_front_img' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'doc_back_img' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'user_img' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'doc_front_img' => 'required|image|mimes:jpeg,png,jpg|max:102400',
+            'doc_back_img' => 'required|image|mimes:jpeg,png,jpg|max:102400',
+            'user_img' => 'required|image|mimes:jpeg,png,jpg|max:102400',
         ]);
 
         DB::beginTransaction();
@@ -454,6 +461,10 @@ class DashboardController extends Controller
 
             $customer->kyc_id = $temp->id;
             $customer->save();
+
+            $output = fetchPublicIP();
+            $output['activity'] = 'Form submit for kyc verification';
+            ActivityLog::create($output);
 
             DB::commit();
 

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('contact_no');
             $table->string('customer_code')->unique();
             $table->boolean('is_email_verified')->default(false);
+            $table->longText('user_remark')->nullable();
             $table->boolean('is_active')->default(true);
             $table->foreignId('kyc_id')->nullable()->constrained('kycs');
             $table->boolean('is_kyc_verified')->default(false);

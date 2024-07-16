@@ -42,7 +42,6 @@ const TradePageShare = ({ symbol, balance, user_currency, price_url, form_type }
         setData('symbol', priceFetcherHelper())
 
 
-        console.log(price_url);
         const fetchTickerData = async () => {
             try {
                 const response = await axios.get(price_url);

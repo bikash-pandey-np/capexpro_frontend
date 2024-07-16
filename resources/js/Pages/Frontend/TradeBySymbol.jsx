@@ -13,7 +13,6 @@ const TradeBySymbol = ({ symbol, balance, user_currency, form_type }) => {
         symbol : symbol,
     });
     const [tickerData, setTickerData] = useState(null);
-    console.log(user_currency);
     useEffect(() => {
         const fetchTickerData = async () => {
             try {

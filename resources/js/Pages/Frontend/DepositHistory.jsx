@@ -4,7 +4,6 @@ import { useDarkMode } from '../Components/DarkModeProvider';
 import moment from 'moment';
 
 const DepositHistory = ({ deposits }) => {
-    console.log(deposits);
     const { darkMode } = useDarkMode();
 
     const formatDate = (dateString) => {

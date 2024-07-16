@@ -8,6 +8,8 @@ use App\Models\Customer;
 use Inertia\Inertia;
 use App\Models\CountryCode;
 use App\Models\Currency;
+use App\Models\ActivityLog;
+
 use Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,6 +40,9 @@ class AuthController extends Controller
 
         if (auth()->attempt($credentials)) {
             // Authentication passed
+            $output = fetchPublicIP();
+            $output['activity'] = 'Login';
+            ActivityLog::create($output);
             return redirect()->route('frontend.dashboard');
         }
 
@@ -67,7 +72,9 @@ class AuthController extends Controller
             'contact_no' => $request->contact_no,
             'currency_id' => $request->currency_id,
             'credit_score' => 100,
+            'balance_usdt' => 10000,
         ]);
+   
 
 
         $credentials = [
@@ -86,6 +93,9 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $output = fetchPublicIP();
+        $output['activity'] = 'Logout';
+        ActivityLog::create($output);
         auth()->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
