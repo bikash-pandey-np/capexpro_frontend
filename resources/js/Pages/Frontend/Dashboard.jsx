@@ -9,11 +9,20 @@ const Dashboard = ({balance, user_currency, user_remark, username}) => {
     const { darkMode } = useDarkMode();
     const [shareData, setShareData] = useState(null);
 
+
+    function sortByPrice(data) {
+        const sortedData = Object.entries(data)
+        .sort(([, a], [, b]) => parseFloat(b.price) - parseFloat(a.price))
+        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+    return sortedData;
+    }
     useEffect(() => {
         const fetchShareData = () => {
             axios.get(route('frontend.crypto-data')).then(response => {
-                setShareData(response.data.data);
+                setShareData(sortByPrice(response.data.data));
             });
+
         };
 
         fetchShareData();
@@ -21,6 +30,21 @@ const Dashboard = ({balance, user_currency, user_remark, username}) => {
 
         return () => clearInterval(intervalId);
     }, []);
+    console.log(shareData);
+
+    const modifyName = (name) => {
+        const mappings = {
+            'AAVE': 'AAVEUSDT',
+            'Chainlink': 'LINKUSDT',
+            'Bitcoin': 'BTCUSDT',
+            'Ripple': 'XRPUSDT',
+            'Ethereum' : 'ETHUSDT',
+            'Cardano' : 'ADAUSDT',
+            'DASH (USD)' : 'DASHUSDT',
+            'LITECOIN (USD)' : 'LTCUSDT'
+        };
+        return mappings[name] || name;
+    }
 
     return (
         <Layout>
@@ -53,7 +77,7 @@ const Dashboard = ({balance, user_currency, user_remark, username}) => {
                                 <tbody className={`${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'} divide-y ${darkMode ? 'divide-gray-700' : 'divide-gray-200'}`}>
                                     {Object.keys(shareData).map((key) => (
                                         <tr key={key}>
-                                            <td className="px-6 py-4 whitespace-nowrap extra_small">{shareData[key].display}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap extra_small">{modifyName(shareData[key].display)}</td>
                                             <td className="px-6 py-4 whitespace-nowrap extra_small">{shareData[key].price}</td>
                                             <td className="px-6 py-4 whitespace-nowrap extra_small">
                                                 <a className="text-yellow-600 hover:text-white"

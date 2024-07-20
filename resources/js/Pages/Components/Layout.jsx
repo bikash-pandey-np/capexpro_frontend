@@ -30,13 +30,13 @@ const Layout = ({ children }) => {
                     href='tg://resolve?domain=thecapexprooffical2024'
                     target='_blank' 
                 className="focus:outline-none mr-2" style={{ textAlign:'right' }}>
-                <FaTelegram size={40} color="#0088cc" />
+                <FaTelegram size={24} color="#0088cc" />
                 </a>
                 <a
                 href='https://wa.me/+447438148113'
                 target='_blank' 
             className="focus:outline-none mr-2" style={{ textAlign:'right' }}>
-            <BiLogoWhatsapp size={40} color="#25D366" />
+            <BiLogoWhatsapp size={24} color="#25D366" />
             </a>
                 <button onClick={toggleDarkMode} className="focus:outline-none">
                     {darkMode ? <FaSun size={24} /> : <IoMoon size={36} />}

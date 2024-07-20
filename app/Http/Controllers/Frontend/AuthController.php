@@ -72,10 +72,7 @@ class AuthController extends Controller
             'contact_no' => $request->contact_no,
             'currency_id' => $request->currency_id,
             'credit_score' => 100,
-            'balance_usdt' => 10000,
         ]);
-   
-
 
         $credentials = [
             'email' => $customer->email,
