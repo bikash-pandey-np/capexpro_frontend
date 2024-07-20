@@ -36,11 +36,15 @@ const Trade = ({source, type}) => {
                 
                 
                 </h2>
-                <select className="p-2 border rounded extra_small" value={selectedType} onChange={handleTypeChange}>
+                <select 
+                className={`p-2 border rounded extra_small ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-600'}`} 
+                value={selectedPair} onChange={handlePairChange}>
                     <option value="crypto">Crypto</option>
                     <option value="stock">Stock</option>
                 </select>
-                <select className="p-2 border rounded extra_small" value={selectedPair} onChange={handlePairChange}>
+                <select 
+                className={`p-2 border rounded extra_small ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-600'}`} 
+                value={selectedPair} onChange={handlePairChange}>
                     {selectedType === 'crypto' && <option value="BTCUSDT">BTCUSDT</option>}
                     {selectedType === 'crypto' && <option value="ETHUSDT">ETHUSDT</option>}
                     {selectedType === 'crypto' && <option value="AAVEUSDT">AAVEUSDT</option>}
