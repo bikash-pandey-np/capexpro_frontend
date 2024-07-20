@@ -45,7 +45,7 @@ const Withdraw = () => {
                     <select 
                         value={withdrawType} 
                         onChange={handleWithdrawTypeChange} 
-                        className="p-2 border rounded"
+                        className={`p-2 border rounded extra_small ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-600'}`} 
                     >
                         <option value="crypto">Crypto</option>
                         <option value="bank">Bank</option>

@@ -8,6 +8,7 @@ const Trade = ({source, type}) => {
     const [selectedPair, setSelectedPair] = useState(source ? source : 'BTCUSDT');
     const defaultStock = 'META';
     const [selectedType, setSelectedType] = useState(type ? type : 'crypto');
+    console.log('test page here');
 
     const handlePairChange = (e) => {
         source = 'e.target.value'

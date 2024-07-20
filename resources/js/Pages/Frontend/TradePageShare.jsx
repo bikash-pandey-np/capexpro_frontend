@@ -101,8 +101,8 @@ const TradePageShare = ({ symbol, balance, user_currency, price_url, form_type }
                                 id="tradeType"
                                 value={data.tradeType}
                                 onChange={handleTypeChange}
-                                className="p-2 border rounded w-full"
-                            >
+                                className={`w-full p-2 border rounded extra_small ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-600'}`} 
+                                >
                                 <option value="long">Long</option>
                                 <option value="short">Short</option>
                             </select>
@@ -125,7 +125,7 @@ const TradePageShare = ({ symbol, balance, user_currency, price_url, form_type }
                                 id="duration"
                                 value={data.duration}
                                 onChange={handleDurationChange}
-                                className="p-2 border rounded w-full"
+                                className={`w-full p-2 border rounded extra_small ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-600'}`} 
                             >
                                 <option value="3">3 minutes</option>
                                 <option value="5">5 minutes</option>

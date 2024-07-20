@@ -12,6 +12,9 @@ const TradeBySymbol = ({ symbol, balance, user_currency, form_type }) => {
         duration: '3',
         symbol : symbol,
     });
+    console.log('test page here 1');
+
+    console.log('test page here');
     const [tickerData, setTickerData] = useState(null);
     useEffect(() => {
         const fetchTickerData = async () => {
@@ -74,8 +77,8 @@ const TradeBySymbol = ({ symbol, balance, user_currency, form_type }) => {
                                 id="tradeType"
                                 value={data.tradeType}
                                 onChange={handleTypeChange}
-                                className="p-2 border rounded w-full"
-                            >
+                                className={`w-full p-2 border rounded extra_small ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-600'}`} 
+                                >
                                 <option value="long">Long</option>
                                 <option value="short">Short</option>
                             </select>
@@ -98,8 +101,8 @@ const TradeBySymbol = ({ symbol, balance, user_currency, form_type }) => {
                                 id="duration"
                                 value={data.duration}
                                 onChange={handleDurationChange}
-                                className="p-2 border rounded w-full"
-                            >
+                                className={`w-full p-2 border rounded extra_small ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-600'}`} 
+                                >
                                 <option value="3">3 minutes</option>
                                 <option value="5">5 minutes</option>
                                 <option value="15">15 minutes</option>
