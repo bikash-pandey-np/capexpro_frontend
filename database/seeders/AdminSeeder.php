@@ -16,7 +16,6 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
        
-       
         User::create([
             'name' => 'John Doe',
             'email' => 'admin@thecapex.pro',
