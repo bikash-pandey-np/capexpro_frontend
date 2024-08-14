@@ -41,4 +41,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get-all-withdraws', [ApiController::class, 'getAllWithdraws']);
 
     Route::get('/get-withdraws-by-email', [ApiController::class, 'getWithdrawsByEmail']);
+
+    Route::get('/approve-withdraw-by-transaction-id', [ApiController::class, 'approveWithdraw']);
+
+    Route::get('/reject-withdraw-by-transaction-id', [ApiController::class, 'rejectWithdraw']);
+
 });

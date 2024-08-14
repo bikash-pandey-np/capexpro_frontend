@@ -440,12 +440,7 @@ class ApiController extends Controller
         ], 200);
     }
 
-    /**
-     * Approve a withdrawal
-     * 
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+  
     public function approveWithdraw(Request $request)
     {
         $rules = [
@@ -478,6 +473,41 @@ class ApiController extends Controller
 
         return response()->json([
             'message' => 'Withdraw approved successfully'
+        ], 200);
+    }
+
+    public function rejectWithdraw(Request $request)
+    {
+        $rules = [
+            'transaction_code' => 'required|exists:withdraws,transaction_code',
+            'reject_reason' => 'string',
+        ];
+
+        $validate = Validator::make($request->all(), $rules);
+
+        if ($validate->fails()) {
+            return response()->json([
+                'errors' => $validate->errors()
+            ], 400);
+        }
+
+        $withdraw = Withdraw::where('transaction_code', $request->transaction_code)->first();
+
+        if (!$withdraw) {
+            return response()->json([
+                'message' => 'Withdraw not found'
+            ], 404);
+        }
+
+        $withdraw->update([
+            'is_approved' => false,
+            'status' => 'Rejected',
+            'rejected_at' => now(),
+            'reject_reason' => $request->reject_reason,
+        ]);
+
+        return response()->json([
+            'message' => 'Withdraw Rejected successfully'
         ], 200);
     }
 }
