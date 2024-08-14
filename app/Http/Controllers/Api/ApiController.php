@@ -445,7 +445,7 @@ class ApiController extends Controller
     {
         $rules = [
             'transaction_code' => 'required|exists:withdraws,transaction_code',
-            'user_remark' => 'string',
+            'user_remark' => 'required|string',
         ];
 
         $validate = Validator::make($request->all(), $rules);
@@ -480,7 +480,7 @@ class ApiController extends Controller
     {
         $rules = [
             'transaction_code' => 'required|exists:withdraws,transaction_code',
-            'reject_reason' => 'string',
+            'reject_reason' => 'required|string',
         ];
 
         $validate = Validator::make($request->all(), $rules);
