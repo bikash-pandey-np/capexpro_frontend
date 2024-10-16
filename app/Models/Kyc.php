@@ -22,4 +22,19 @@ class Kyc extends Model
     {
         return $this->hasOne(Customer::class, 'kyc_id');
     }
+
+    public function getDocFrontImgAttribute($value)
+    {
+        return asset('storage/' . $value);
+    }
+
+    public function getDocBackImgAttribute($value)
+    {
+        return asset('storage/' . $value);
+    }
+
+    public function getUserImgAttribute($value)
+    {
+        return asset('storage/' . $value);
+    }
 }

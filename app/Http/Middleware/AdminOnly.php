@@ -16,9 +16,10 @@ class AdminOnly
     public function handle(Request $request, Closure $next): Response
     {
 
-        if(! auth()->check())
+        if(!auth()->guard('admin')->check())
         {
-            return redirect()->route('login');
+            return redirect()->route('admin.login')
+                ->with('error', 'You are not authorized to access this page');
         }
         return $next($request);
     }

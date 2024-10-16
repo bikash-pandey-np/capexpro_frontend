@@ -5,6 +5,8 @@ import { useDarkMode } from '../Components/DarkModeProvider';
 import deposit_img from '../../../images/deposit.png'
 
 const Deposit = ({infos}) => {
+
+    
     const { darkMode } = useDarkMode();
     const cardClass = darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black';
     const headerClass = darkMode ? 'bg-gray-900 br' : 'bg-gray-300 br';
@@ -34,6 +36,7 @@ const Deposit = ({infos}) => {
                 <div className="flex justify-center my-4">
                     <img src={deposit_img} alt="Deposit" style={{ width: '45%' }} />
                 </div>
+                {infos.usdt && (
                 <div className={`card ${cardClass} mb-4`} style={cardStyle}>
                     <div className={`card-header ${headerClass} p-4 mt-6 flex justify-between items-center`}>
                         <h2 className="text-xl font-bold">{infos.usdt.title} Details</h2>
@@ -45,8 +48,9 @@ const Deposit = ({infos}) => {
                     <div className="card-body p-4">
                         <p><strong>Wallet Address:</strong> {infos.usdt.wallet_addr}</p>
                         <p><strong>Deposit Instruction:</strong> {infos.usdt.deposit_instruction}</p>
+                        </div>
                     </div>
-                </div>
+                )}
                 {infos.user_currency && (
                     <div className={`card ${cardClass} mb-4 mt-12`} style={cardStyle}>
                         <div className={`card-header ${headerClass} p-4 flex justify-between items-center`}>

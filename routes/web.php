@@ -9,7 +9,7 @@ use App\Http\Controllers\Frontend\WebsiteController;
 use App\Http\Controllers\BinanceController;
 
 
-
+include 'admin.php';
 Route::get('/ticker', [BinanceController::class, 'getPrice'])->name('binance_ticker');
 
 Route::get('/', [WebsiteController::class, 'getHomepage'])->name('homepage');

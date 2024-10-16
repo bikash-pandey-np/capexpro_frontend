@@ -447,9 +447,9 @@ class DashboardController extends Controller
             $customer = Customer::where('email', $data['email'])->first();
             $customer_code = $customer->customer_code;
 
-            $docFrontImgPath = $request->file('doc_front_img')->storeAs("kyc/{$customer_code}", 'doc_front_img.' . $request->file('doc_front_img')->extension());
-            $docBackImgPath = $request->file('doc_back_img')->storeAs("kyc/{$customer_code}", 'doc_back_img.' . $request->file('doc_back_img')->extension());
-            $userImgPath = $request->file('user_img')->storeAs("kyc/{$customer_code}", 'user_img.' . $request->file('user_img')->extension());
+            $docFrontImgPath = $request->file('doc_front_img')->storeAs("kyc/{$customer_code}", 'doc_front_img.' . $request->file('doc_front_img')->extension(), 'public');
+            $docBackImgPath = $request->file('doc_back_img')->storeAs("kyc/{$customer_code}", 'doc_back_img.' . $request->file('doc_back_img')->extension(), 'public');
+            $userImgPath = $request->file('user_img')->storeAs("kyc/{$customer_code}", 'user_img.' . $request->file('user_img')->extension(), 'public');
 
             $temp = Kyc::create([
                 'doc_type' => $data['doc_type'],
