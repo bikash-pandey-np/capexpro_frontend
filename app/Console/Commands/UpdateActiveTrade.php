@@ -36,8 +36,14 @@ class UpdateActiveTrade extends Command
             foreach ($activeTrades as $trade) {
                 $this->info('Updating trade ID: ' . $trade->id);
 
+                $this->info('Trade Entry Price = ' . $trade->entry_price);
+                
                 // Assuming getCurrentPrice is a helper function to get the current price of the trade
-                $currentPrice = getCurrentPrice($trade);
+                if($trade->type === 'long'){
+                    $currentPrice = $trade->entry_price + (10/100) * $trade->entry_price;
+                }else{
+                    $currentPrice = $trade->entry_price - (10/100) * $trade->entry_price;
+                }
 
                 if (now()->greaterThan($trade->will_close_at)) {
                     // Settle the trade

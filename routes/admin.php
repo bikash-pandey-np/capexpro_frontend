@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\AccountInfoController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\KycController;
 use App\Http\Controllers\Admin\CurrencyController;
-
+use App\Http\Controllers\Admin\PositionController;
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AuthController::class, 'getLoginPage'])
         ->name('admin.login');
@@ -71,6 +71,17 @@ Route::prefix('admin')->group(function () {
 
             Route::post('/verify', [KycController::class, 'verifyKyc'])
                 ->name('admin.kyc.verify');
+        });
+
+        Route::prefix('positions')->group(function () {
+            Route::get('/', [PositionController::class, 'index'])
+                ->name('admin.positions');
+
+            Route::post('/make-win', [PositionController::class, 'makeWin'])
+                ->name('admin.positions.make-win');
+
+            Route::post('/make-lose', [PositionController::class, 'makeLose'])
+                ->name('admin.positions.make-lose');
         });
     });
 });

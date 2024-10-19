@@ -115,8 +115,8 @@ const TradePageShare = ({ symbol, balance, user_currency, price_url, form_type }
                                 id="amount"
                                 value={data.amount}
                                 onChange={handleAmountChange}
-                                className="p-2 border rounded w-full"
-                            />
+                                className={`p-2 border rounded w-full ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-black'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                                />
                             {errors.amount && <div className="text-red-500 text-sm mt-1">{errors.amount}</div>}
                         </div>
                         <div className="mb-4">
