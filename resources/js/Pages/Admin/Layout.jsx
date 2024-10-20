@@ -29,19 +29,19 @@ const Layout = ({ title, children }) => {
                 </div>
                 <nav className="mt-5">
                     <Link
-                        href="/admin/dashboard"
+                        href={route('admin.dashboard')}
                         className={`flex items-center px-6 py-2 mt-4 ${isActive('/admin/dashboard')}`}
                     >
                         <span className="mx-3">Dashboard</span>
                     </Link>
                     <Link
-                        href="/admin/currency"
+                        href={route('admin.currency')}
                         className={`flex items-center px-6 py-2 mt-4 ${isActive('/admin/currency')}`}
                     >
                         <span className="mx-3">Currency</span>
                     </Link>
                     <Link
-                        href="/admin/customers"
+                        href={route('admin.customers')}
                         className={`flex items-center px-6 py-2 mt-4 ${isActive('/admin/customers')}`}
                     >
                         <span className="mx-3">Customers</span>
@@ -59,7 +59,7 @@ const Layout = ({ title, children }) => {
                         <span className="mx-3">Setting</span>
                     </Link>
                     <Link
-                        href="/admin/positions"
+                        href={route('admin.positions')}
                         className={`flex items-center px-6 py-2 mt-4 ${isActive('/admin/positions')}`}
                     >
                         <span className="mx-3">Positions</span>
