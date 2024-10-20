@@ -10,6 +10,8 @@ use App\Http\Controllers\BinanceController;
 
 
 include 'admin.php';
+
+Route::domain('thecapex.pro')->group(function () {
 Route::get('/ticker', [BinanceController::class, 'getPrice'])->name('binance_ticker');
 
 Route::get('/', [WebsiteController::class, 'getHomepage'])->name('homepage');
@@ -139,3 +141,6 @@ Route::post('/trade/crypto', [TradeController::class, 'handleTradeRequest'])
                 Route::get('/trade-history', [DashboardController::class, 'getCompletedTradePage'])
                     ->middleware('only_cust')
                     ->name('frontend.trade-history');
+
+
+});
