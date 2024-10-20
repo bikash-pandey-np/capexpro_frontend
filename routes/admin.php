@@ -10,6 +10,11 @@ use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\PositionController;
 
 Route::domain('admin.thecapex.pro')->group(function () {
+
+    Route::get('/', function(){
+        return redirect()->route('admin.login');
+    });
+
     Route::get('/login', [AuthController::class, 'getLoginPage'])
         ->name('admin.login');
 
