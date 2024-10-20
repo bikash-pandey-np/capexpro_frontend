@@ -19,11 +19,17 @@ class PositionController extends Controller
         $positions = Position::query();
 
         $search = false;
-
         if($request->has('search') && $request->search != ''){
             $search = true;
-            $positions->where('symbol', 'like', '%'.$request->search.'%')
-                ->orWhere('identifier', 'like', '%'.$request->search.'%');
+            $positions->where(function($query) use ($request) {
+                $query->where('symbol', 'like', '%'.$request->search.'%')
+                    ->orWhere('identifier', 'like', '%'.$request->search.'%')
+                    ->orWhereHas('tradedBy', function($subQuery) use ($request) {
+                        $subQuery->where('full_name', 'like', '%'.$request->search.'%')
+                            ->orWhere('email', 'like', '%'.$request->search.'%')
+                            ->orWhere('customer_code', 'like', '%'.$request->search.'%');
+                    });
+            });
         }
 
         if($request->has('status') && $request->status != ''){
@@ -94,12 +100,11 @@ class PositionController extends Controller
 
             $position->update([
                 'outcome' => 'Negative',
-                'pnl' => $request->amount,
+                'pnl' => $position->amount,
                 'status' => 'Settled',
                 'closed_at' => $position->will_close_at,
                 'is_active' => false,
-                'trade_close_price' => $position->type == 'long' ? $position->entry_price + (10/100) * $position->entry_price : $position->entry_price - (10/100) * $position->entry_price,
-
+                'trade_close_price' => $position->type == 'long' ? $position->entry_price - (10/100) * $position->entry_price : $position->entry_price + (10/100) * $position->entry_price,
             ]);
 
 

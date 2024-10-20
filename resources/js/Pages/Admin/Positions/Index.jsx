@@ -31,26 +31,14 @@ const Index = ({ positions, search }) => {
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
             icon: 'warning',
-            input: 'text',
-            inputLabel: 'Enter Amount',
-            inputPlaceholder: 'Enter the Amount',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, lose it!',
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'You need to enter an Amount!'
-                }
-                if (!/^[1-9]\d*(\.\d+)?$/.test(value)) {
-                    return 'Please enter a valid positive number (no leading zeros, no "e" notation)!'
-                }
-            }
         }).then((result) => {
             if (result.isConfirmed) {
                 Inertia.post(route('admin.positions.make-lose'), {
                     id: id,
-                    amount: result.value
                 });
             }
         })
@@ -241,6 +229,27 @@ const Index = ({ positions, search }) => {
                         )}
                     </tbody>
                 </table>
+
+                {/* Pagination */}
+                <div className="mt-4 flex justify-between items-center">
+                    <div>
+                        Showing {positions.from} to {positions.to} of {positions.total} results
+                    </div>
+                <div className="flex">
+                    {positions.links.map((link, index) => (
+                        <Link
+                            key={index}
+                            href={link.url}
+                            className={`px-4 py-2 border ${
+                                link.active
+                                    ? 'bg-blue-500 text-white'
+                                    : 'bg-white text-blue-500 hover:bg-blue-100'
+                            } ${!link.url && 'opacity-50 cursor-not-allowed'}`}
+                            dangerouslySetInnerHTML={{ __html: link.label }}
+                        />
+                    ))}
+                    </div>
+                </div>
             </div>
         </Layout>
     );

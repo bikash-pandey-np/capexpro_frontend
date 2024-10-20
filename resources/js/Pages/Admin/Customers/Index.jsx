@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../Layout';
-import { Link } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import { FaEdit, FaLock, FaUnlock, FaCheck, FaTimes, FaEye } from 'react-icons/fa';
 import { Inertia } from '@inertiajs/inertia';
 import Swal from 'sweetalert2';
 
-const Index = ({ customers, search }) => {
-    const [searchQuery, setSearchQuery] = useState('');
+const Index = ({ customers, search, currencies, accounts }) => {
 
-    console.log(customers);
+
+    const [searchQuery, setSearchQuery] = useState('');
+    const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
+    const [customerId, setCustomerId] = useState('');
+    const { data, setData, post, processing, errors } = useForm({
+        amount: '',
+        currency_id: '',
+        type: 'cash',
+        account: ''
+    });
+
+    const modalRef = useRef(null);
+
 
     const handleBlockClick = (customer) => {
-        console.log(customer);
 
         Swal.fire({
             title: 'Are you sure?',
@@ -26,11 +36,9 @@ const Index = ({ customers, search }) => {
                 Inertia.post(route('admin.customers.block'), { id: customer.id });
             }
         });
-
     }
 
     const handleUnblockClick = (customer) => {
-        console.log(customer);
 
         Swal.fire({
             title: 'Are you sure?',
@@ -46,22 +54,18 @@ const Index = ({ customers, search }) => {
             }
         });
     }   
-    
 
     const handleSearch = (e) => {
         setSearchQuery(e.target.value);
     }
 
     const showKycStatus = (customer) => {
-
         if(customer.kyc_id == null){
-            console.log('if', customer.id);
             return <span className="text-red-600 flex items-center">
                 <FaTimes className="mr-1" /> Not Submitted
             </span>
         }
         else{
-            console.log('else', customer.id);
             if(customer.is_kyc_verified){
                 return (
                     <>
@@ -80,9 +84,8 @@ const Index = ({ customers, search }) => {
                 </span>
             }
         }
-
-
     }
+
     const fetchSearchResults = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -91,6 +94,43 @@ const Index = ({ customers, search }) => {
             });
         }
     }
+
+    const handleDepositClick = (id) => {
+        setIsDepositModalOpen(true);
+
+        setCustomerId(id)
+    }
+
+    const handleDepositFormChange = (e) => {
+        const { name, value } = e.target;
+        setData(name, value);
+    }
+
+
+    const handleModalClose = (e) => {
+        e.preventDefault();
+        setCustomerId('');
+        setIsDepositModalOpen(false);
+    }
+
+    const handleDepositSubmit = (e) => {
+        e.preventDefault();
+        console.log('Customer ID from submit', data);
+        post(route('admin.deposit', { customer_id: customerId }));
+    }
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                handleModalClose(event);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
         <Layout title="Customers">
@@ -110,7 +150,6 @@ const Index = ({ customers, search }) => {
                             Clear
                     </Link>
                 )}
-               
             </div>
 
             <div className='mt-4 overflow-x-auto'>
@@ -187,33 +226,32 @@ const Index = ({ customers, search }) => {
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        {/* <Link
-                                        //  href={route('admin.customers.update', customer.id)} 
-                                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center mr-2"
-                                        >
-                                            <FaEdit className="mr-2" />
-                                            <span>Update</span>
-                                        </Link> */}
-                                       
-                                            {customer.is_active ? (
-                                                <>
-                                                <button onClick={() => handleBlockClick(customer)}
-                                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center mr-2"
-                                                    >
-                                                    <FaLock className="mr-2" />
-                                                    <span>Block</span>
-                                                </button>
-                                                </>
-                                            ) : (
-                                                <>
-                                                <button onClick={() => handleUnblockClick(customer)}
-                                                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center mr-2"
-                                                    >
-                                                    <FaUnlock className="mr-2" />
-                                                    <span>Unblock</span>
-                                                </button>
-                                                </>
-                                            )}
+                                        <button
+                                            onClick={() => handleDepositClick(customer.id)}
+                                            data-customer-id={customer.id}
+                                            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded inline-flex items-center mr-2 text-xs'>
+                                            Deposit
+                                        </button>
+                                    
+                                        {customer.is_active ? (
+                                            <>
+                                            <button onClick={() => handleBlockClick(customer)}
+                                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-flex items-center mr-2 text-xs"
+                                                >
+                                                <FaLock className="mr-1" />
+                                                <span>Block</span>
+                                            </button>
+                                            </>
+                                        ) : (
+                                            <>
+                                            <button onClick={() => handleUnblockClick(customer)}
+                                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded inline-flex items-center mr-2 text-xs"
+                                                >
+                                                <FaUnlock className="mr-1" />
+                                                <span>Unblock</span>
+                                            </button>
+                                            </>
+                                        )}
                                     </td>
                                 </tr>
                             ))
@@ -248,6 +286,74 @@ const Index = ({ customers, search }) => {
                     ))}
                 </div>
             </div>
+
+            {/* Deposit Modal */}
+            {isDepositModalOpen && (
+                <div className="fixed z-10 inset-0 overflow-y-auto">
+                    <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+                            <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+                        </div>
+
+                        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+                        <div ref={modalRef} className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                            <form onSubmit={(e) => handleDepositSubmit(e)} className="p-6">
+                                <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Deposit</h3>
+                                <div className="mb-4">
+                                    <label htmlFor="amount" className="block text-sm font-medium text-gray-700">Amount</label>
+                                    <input type="number" name="amount" id="amount" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required onChange={handleDepositFormChange} />
+                                    {errors.amount && (
+                                        <p className="text-red-500 text-xs mt-1">{errors.amount}</p>
+                                    )}
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="currency_id" className="block text-sm font-medium text-gray-700">Currency</label>
+                                    <select name="currency_id" id="currency_id" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required onChange={handleDepositFormChange}>
+                                        <option value="">Select Currency</option>
+                                        {currencies && currencies.map((currency) => (
+                                            <option key={currency.id} value={currency.id}>{currency.name}</option>
+                                        ))}
+                                    </select>
+                                    {errors.currency_id && (
+                                        <p className="text-red-500 text-xs mt-1">{errors.currency_id}</p>
+                                    )}
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="type" className="block text-sm font-medium text-gray-700">Type</label>
+                                    <select name="type" id="type" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required onChange={handleDepositFormChange}>
+                                        <option value="cash">Cash</option>
+                                        <option value="account">Account</option>
+                                    </select>
+                                    {errors.type && (
+                                        <p className="text-red-500 text-xs mt-1">{errors.type}</p>
+                                    )}
+                                </div>
+                                {data.type === 'account' && (
+                                    <div className="mb-4">
+                                        <label htmlFor="account" className="block text-sm font-medium text-gray-700">Account</label>
+                                        <select name="account" id="account" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                         onChange={handleDepositFormChange}>
+                                            <option value="">Select Account</option>
+                                            {accounts && accounts.map((account) => (
+                                                <option key={account.id} value={account.id}>{account.title}</option>
+                                            ))}
+                                        </select>
+                                        {errors.account && (
+                                            <p className="text-red-500 text-xs mt-1">{errors.account}</p>
+                                        )}
+                                    </div>
+                                )}
+                                <div className="mt-5 sm:mt-6">
+                                    <button type="submit" className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                                        Submit
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
         </Layout>
     );
 }

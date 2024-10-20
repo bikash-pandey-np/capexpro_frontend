@@ -18,6 +18,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'getDashboardPage'])
             ->name('admin.dashboard');
 
+        Route::post('/deposit/{customer_id}', [CustomerController::class, 'deposit'])
+            ->name('admin.deposit');
+
         Route::prefix('account-info')->group(function () {
             Route::get('/', [AccountInfoController::class, 'getAccountInfoPage'])
                 ->name('admin.account-info');

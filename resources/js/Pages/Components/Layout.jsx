@@ -27,13 +27,13 @@ const Layout = ({ children }) => {
             {/* Right side */}
             <div className="flex items-center space-x-4 text-right">
                 <a
-                    href='tg://resolve?domain=thecapexprooffical2024'
+                    href='https://t.me/officialcapex2024'
                     target='_blank' 
                 className="focus:outline-none mr-2" style={{ textAlign:'right' }}>
                 <FaTelegram size={24} color="#0088cc" />
                 </a>
                 <a
-                href='https://wa.me/+447438148113'
+                href='https://wa.me/+18202018914'
                 target='_blank' 
             className="focus:outline-none mr-2" style={{ textAlign:'right' }}>
             <BiLogoWhatsapp size={24} color="#25D366" />
