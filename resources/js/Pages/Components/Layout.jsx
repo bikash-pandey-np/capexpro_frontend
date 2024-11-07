@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
                 <FaTelegram size={24} color="#0088cc" />
                 </a>
                 <a
-                href='https://wa.me/+18202018914'
+                href='https://wa.me/+12297120026'
                 target='_blank' 
             className="focus:outline-none mr-2" style={{ textAlign:'right' }}>
             <BiLogoWhatsapp size={24} color="#25D366" />
