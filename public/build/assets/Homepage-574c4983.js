@@ -1,0 +1,1 @@
+import{j as r}from"./app-2567202e.js";import o from"./Navbar-f163ccf8.js";import t from"./Banner-9721d723.js";import m from"./Intro-73290696.js";import s from"./Footer-9423f7a2.js";import e from"./Feature-98f53a2a.js";import"./logo-1a4f8099.js";const u=()=>r.jsxs("div",{children:[r.jsx(o,{}),r.jsx(t,{}),r.jsx(m,{}),r.jsx(e,{}),r.jsx(s,{})]});export{u as default};
